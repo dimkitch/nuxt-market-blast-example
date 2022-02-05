@@ -1,0 +1,32 @@
+body {
+  color: @text-main;
+  background-color: @body-main;
+  font-family: @font-main;
+  font-weight: normal;
+}
+
+.main {
+  margin-top: 80px;
+}
+
+.container {
+  width: 100%;
+  max-width: 1640px;
+  margin: 0 auto;
+  @media (max-width: @size-desktop-xl) {
+    max-width: 1380px;
+  }
+
+  @media (max-width: @size-desktop) {
+    max-width: 100%;
+    padding: 0 50px;
+  }
+
+  @media (max-width: @size-desktop-md) {
+    padding: 0 25px;
+  }
+
+  @media (max-width: @size-desktop-sm) {
+    padding: 0 16px;
+  }
+}
