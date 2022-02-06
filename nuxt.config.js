@@ -3,7 +3,7 @@ require('dotenv').config();
 const isDev = process.env.NODE_ENV !== 'production';
 
 export default {
-  ssr: true,
+  ssr: process.env.SSR_MODE,
 
   server: {
     port: isDev ? process.env.PORT_DEVELOPMENT : process.env.PORT_PRODUCTION,
