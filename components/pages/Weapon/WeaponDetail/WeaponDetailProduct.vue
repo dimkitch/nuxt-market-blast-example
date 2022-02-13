@@ -1,8 +1,8 @@
 <template>
-  <div class="weapon-detail">
+  <div class="weapon-detail" v-if="product && Object.keys(product).length">
     <div
       class="weapon-detail__img"
-      :style="{ backgroundImage: `url(${product.images[0]})` }"
+      :style="{ backgroundImage: `url(${product.images})` }"
     ></div>
     <div class="weapon-detail__wrapper">
       <div class="weapon-detail__info">
@@ -28,18 +28,14 @@
 
 <script lang="ts">
   import { Vue, Component } from 'nuxt-property-decorator';
-  import { IProduct } from '@/types/features/Product';
   import { cashSpacer } from '@/helpers/cashSpacer';
   import CustomButton from '@/components/common/CustomButton.vue';
+  import { productStore } from '~/store';
   @Component({ components: { CustomButton } })
   export default class WeaponDetailProduct extends Vue {
-    product: IProduct = {
-      id: 6,
-      title: 'Бластер zxc',
-      description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit.',
-      images: [require('@/assets/img/blaster/4.png')],
-      price: 25000,
-    };
+    get product() {
+      return productStore.PRODUCT_ONE;
+    }
 
     formatedPrice(value: number) {
       return cashSpacer(value, ' ');

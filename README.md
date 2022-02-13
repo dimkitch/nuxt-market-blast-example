@@ -6,6 +6,8 @@
  При разработке использовал 14.18.2 версию nodejs
 ```
 
+Создайте .env файл по примеру .env.example
+
 ```bash
 # install dependencies
 $ npm install

@@ -1,11 +1,14 @@
 import { IServiceList } from '@/types/Service';
 
+const https = process.env.SECURE === 'true';
+
 const services: IServiceList = {
   main: {
     domain: `${process.env.DOMAIN}`,
-    secure: true,
+    secure: https,
     routes: {
       auth: 'user/auth',
+      product: 'product.json',
     },
   },
 };

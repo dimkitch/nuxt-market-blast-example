@@ -5,10 +5,6 @@ body {
   font-weight: normal;
 }
 
-.main {
-  margin-top: 80px;
-}
-
 .container {
   width: 100%;
   max-width: 1640px;
@@ -28,5 +24,16 @@ body {
 
   @media (max-width: @size-desktop-sm) {
     padding: 0 16px;
+  }
+}
+
+.swiper-button-prev {
+  @media (max-width: @size-mob-xl) {
+    left: 0 !important;
+  }
+}
+.swiper-button-next {
+  @media (max-width: @size-mob-xl) {
+    right: 0 !important;
   }
 }

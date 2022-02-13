@@ -17,14 +17,15 @@
   import WeaponDetailPreview from '@/components/pages/Weapon/WeaponDetail/WeaponDetailPreview.vue';
   import WeaponDetailProduct from '@/components/pages/Weapon/WeaponDetail/WeaponDetailProduct.vue';
   import RouteBack from '@/components/common/RouteBack.vue';
+  import { productStore } from '~/store';
 
   @Component({
     components: { WeaponDetailPreview, WeaponDetailProduct, RouteBack },
   })
   export default class PageWeaponDetail extends Vue {
-    fetch() {
-      // здесь делаем запрос к бэк-методам через стор, чтобы вытащить данные
-      // здесь вытаскиваем нужный продукт по id из стора
+    async fetch() {
+      const id = this.$route.params.id;
+      await productStore.GET_ONE_PRODUCT(id);
     }
   }
 </script>

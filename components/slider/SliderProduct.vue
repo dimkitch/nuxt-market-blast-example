@@ -49,10 +49,11 @@
 </template>
 
 <script lang="ts">
-  import { Vue, Component } from 'nuxt-property-decorator';
+  import { Vue, Component, Watch } from 'nuxt-property-decorator';
   import Swiper from 'swiper';
   import { IProduct } from '@/types/features/Product';
   import { cashSpacer } from '@/helpers/cashSpacer';
+  import { productStore } from '~/store';
 
   @Component({
     components: {},
@@ -60,64 +61,9 @@
   export default class SliderProduct extends Vue {
     sw: Swiper | null = null;
 
-    products: Array<IProduct> = [
-      {
-        id: 1,
-        title: 'Бластер х10000',
-        description:
-          'Lorem ipsum, dolor sit amet consectetur adipisicing elit.',
-        images: [require('@/assets/img/blaster/1.png')],
-        price: 25000,
-      },
-      {
-        id: 2,
-        title: 'Бластер х20000',
-        description:
-          'Lorem ipsum, dolor sit amet consectetur adipisicing elit.',
-        images: [require('@/assets/img/blaster/2.png')],
-        price: 250000,
-      },
-      {
-        id: 3,
-        title: 'Бластер первой серии',
-        description:
-          'Lorem ipsum, dolor sit amet consectetur adipisicing elit.',
-        images: [require('@/assets/img/blaster/3.png')],
-        price: 1000000,
-      },
-      {
-        id: 4,
-        title: 'Бластер захватчик',
-        description:
-          'Lorem ipsum, dolor sit amet consectetur adipisicing elit.',
-        images: [require('@/assets/img/blaster/4.png')],
-        price: 45000,
-      },
-      {
-        id: 5,
-        title: 'Бластер воин',
-        description:
-          'Lorem ipsum, dolor sit amet consectetur adipisicing elit.',
-        images: [require('@/assets/img/blaster/2.png')],
-        price: 78500,
-      },
-      {
-        id: 6,
-        title: 'Бластер zxc',
-        description:
-          'Lorem ipsum, dolor sit amet consectetur adipisicing elit.',
-        images: [require('@/assets/img/blaster/4.png')],
-        price: 25000,
-      },
-      {
-        id: 7,
-        title: 'Бластер Гендзю',
-        description:
-          'Lorem ipsum, dolor sit amet consectetur adipisicing elit.',
-        images: [require('@/assets/img/blaster/3.png')],
-        price: 4000000,
-      },
-    ];
+    get products() {
+      return productStore.PRODUCT_LIST;
+    }
 
     initSwiper() {
       //@ts-ignore
@@ -128,14 +74,30 @@
         watchSlidesProgress: true,
         allowTouchMove: true,
         cssMode: true,
-        slidesPerView: 3,
+        slidesPerView: 1,
         simulateTouch: true,
         effect: 'cube',
+        breakpoints: {
+          768: {
+            slidesPerView: 2,
+          },
+          1280: {
+            slidesPerView: 3,
+          },
+        },
       });
     }
 
     formatedPrice(value: number) {
       return cashSpacer(value, ' ');
+    }
+
+    @Watch('products')
+    onUpdate() {
+      if (this.sw && !this.sw.destroyed) this.sw.destroy();
+      setTimeout(() => {
+        this.initSwiper();
+      });
     }
 
     mounted() {
@@ -153,12 +115,20 @@
   .slider-product {
     position: relative;
     padding: 0 80px;
+    @media (max-width: @size-tablet-sm) {
+      padding: 0 50px;
+    }
+    @media (max-width: @size-mob-xl) {
+      padding: 0 30px;
+    }
 
     // .slider-product__item
     &__item {
       border-radius: 6px;
       padding: 20px;
       margin: 0;
+      height: auto;
+      display: block;
 
       cursor: pointer;
 
@@ -222,6 +192,10 @@
         background-color: rgba(@body-main, 0.6);
         padding: 20px;
         transition: @transition;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
       }
 
       // .slider-product__item-fon
@@ -245,6 +219,10 @@
       // .slider-product__item-description
       &-description {
         margin-bottom: 16px;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
       }
 
       // .slider-product__item-price
